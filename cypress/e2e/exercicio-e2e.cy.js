@@ -14,7 +14,7 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         Preenchendo todas opções no checkout
         E validando minha compra ao final */
 
-        
+
     beforeEach(() => {
         cy.visit('produtos/')
     });
@@ -28,7 +28,9 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         cy.visit('produtos/')
         cy.addProdutos('Argus All-Weather Tank', 'L', 'Gray', '1')
         cy.get('.dropdown-toggle > .mini-cart-items').should('contain', 4)
+        cy.get('.woocommerce-message > .button').click()
         cy.get('.checkout-button').click()
+
 
         let nomeFaker = faker.name.firstName()
         let sobrenomeFaker = faker.name.lastName()
@@ -39,6 +41,8 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         let email = faker.internet.email()
 
         checkout.editarInformacoesCheckout(nomeFaker, sobrenomeFaker, empresaFaker, 'Brasil', endereco, enderecoNumero, 'Sao Paulo', 'Sao Paulo', '11111111', fone, email)
+
+        cy.get('.woocommerce-notice').should('contain', 'Obrigado. Seu pedido foi recebido')
     });
 
 });
